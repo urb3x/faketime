@@ -453,13 +453,13 @@
       top: 0;
       left: 0;
       right: 0;
-      bottom: -80px;
-      padding-bottom: 80px;
+      height: var(--full-screen-h, calc(100vh + env(safe-area-inset-bottom, 34px)));
       width: 100%;
       z-index: 50;
-      background: linear-gradient(to bottom, #0f0f0f 0%, #0f0f0f 70%, #3BC8C0 70%, #3BC8C0 100%);
+      background: #0f0f0f;
       display: flex;
       flex-direction: column;
+      justify-content: flex-end;
       opacity: 0;
       pointer-events: none;
       transition: opacity 0.2s ease;
@@ -477,23 +477,22 @@
       margin: 0 auto;
       display: flex;
       flex-direction: column;
+      justify-content: flex-end;
       background: #0f0f0f;
       position: relative;
-      overflow: visible;
+      overflow: hidden;
     }
 
-    /* Safe-area top spacer for iPhone status bar */
+    /* Top spacer absorbs any extra vertical space at the top in pure #0f0f0f so the bottom sits 100% flush with the floor */
     .yt-status-spacer {
-      height: env(safe-area-inset-top, 44px);
+      flex: 1;
+      min-height: env(safe-area-inset-top, 44px);
       background: #0f0f0f;
-      box-shadow: 0 -80px 0 80px #0f0f0f;
-      flex-shrink: 0;
     }
 
     /* Crisp Vector YouTube Top Bar */
     .yt-topbar {
-      height: 40px;
-      margin-top: -6px;
+      height: 44px;
       padding: 0 16px;
       display: flex;
       align-items: center;
@@ -670,20 +669,17 @@
       letter-spacing: 1px;
     }
 
-    /* Ad Image filling remaining bottom space + matching #3BC8C0 teal bleed below */
+    /* Ad Image anchored flush to the very bottom of the physical screen */
     .yt-ad-container {
       position: relative;
-      flex: 1;
-      min-height: 0;
       width: 100%;
-      background: #3BC8C0;
-      box-shadow: 0 80px 0 80px #3BC8C0;
+      flex-shrink: 0;
+      background: #0f0f0f;
     }
 
     .yt-ad-img {
       width: 100%;
-      height: 100%;
-      object-fit: fill;
+      height: auto;
       display: block;
     }
 
