@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="YouTube" />
   <meta name="mobile-web-app-capable" content="yes" />
   <meta name="theme-color" content="#0f0f0f" />
@@ -439,16 +439,14 @@
 
     /*
      * Unlocked YouTube Screen:
-     * Sits flush at top:0 to bottom:0 of the viewport with the status bar already cropped from youtube.jpg
+     * Uses full physical iPhone screen height from y=0 (behind translucent iOS status bar) to bottom edge
      */
     .youtube-screen {
       position: fixed;
       top: 0;
       left: 0;
-      right: 0;
-      bottom: 0;
       width: 100vw;
-      height: 100%;
+      height: var(--full-screen-h, 100vh);
       z-index: 50;
       background: #0f0f0f;
       opacity: 0;
@@ -481,7 +479,7 @@
     /* Invisible Hotspot directly over the YouTube Logo in top-left */
     .yt-logo-hotspot {
       position: absolute;
-      top: 0%;
+      top: 4.5%;
       left: 1.5%;
       width: 38%;
       height: 7.5%;
@@ -666,7 +664,7 @@
   <!-- 4. Unlocked YouTube Screen (Displays uploaded screenshot & secret YouTube logo button) -->
   <div id="youtubeScreen" class="youtube-screen">
     <div class="youtube-wrapper">
-      <img src="youtube.jpg" alt="YouTube" class="youtube-img" />
+      <img src="youtube.jpg?v=8" alt="YouTube" class="youtube-img" />
       <!-- Clicking the YouTube logo in the top-left reveals the entered passcode -->
       <button id="ytLogoBtn" class="yt-logo-hotspot" aria-label="YouTube Logo"></button>
     </div>
