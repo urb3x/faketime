@@ -8,6 +8,8 @@
   <meta name="apple-mobile-web-app-title" content="YouTube" />
   <meta name="mobile-web-app-capable" content="yes" />
   <meta name="theme-color" content="#0f0f0f" />
+  <link rel="apple-touch-icon" href="apple-touch-icon.png?v=9" />
+  <link rel="icon" type="image/png" href="apple-touch-icon.png?v=9" />
   <title>YouTube</title>
   <style>
     :root {
@@ -62,13 +64,13 @@
       right: 0;
       bottom: 0;
       width: 100vw;
-      height: 100%;
+      height: var(--full-screen-h, 100vh);
       z-index: 1;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
       align-items: center;
-      padding: 0 24px 36px;
+      padding: 0 24px 68px;
       transition: filter 0.25s ease, opacity 0.25s ease;
     }
 
@@ -87,7 +89,7 @@
 
     /* Center Hourglass + Text positioned at upper-middle like Screenshot 3 */
     .center-content {
-      margin-top: 16vh;
+      margin-top: 21vh;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -266,8 +268,8 @@
       position: fixed;
       left: 0;
       right: 0;
-      top: 10px;
-      bottom: 0;
+      top: max(44px, env(safe-area-inset-top, 44px));
+      height: calc(var(--full-screen-h, 100vh) - max(44px, env(safe-area-inset-top, 44px)) + 40px);
       z-index: 40;
       background: #1C1C1E;
       border-top-left-radius: 38px;
@@ -277,7 +279,7 @@
       flex-direction: column;
       align-items: center;
       justify-content: space-between;
-      padding: 18px 24px 28px;
+      padding: 20px 24px 68px;
       opacity: 0;
       pointer-events: none;
       transform: translateY(100%);
@@ -438,8 +440,9 @@
     }
 
     /*
-     * Unlocked YouTube Screen:
-     * Uses full physical iPhone screen height from y=0 (behind translucent iOS status bar) to bottom edge
+     * ===================================================================
+     * NATIVE CRISP VECTOR YOUTUBE UI (Replaces blurry JPEG header/text)
+     * ===================================================================
      */
     .youtube-screen {
       position: fixed;
@@ -449,6 +452,8 @@
       height: var(--full-screen-h, 100vh);
       z-index: 50;
       background: #0f0f0f;
+      display: flex;
+      flex-direction: column;
       opacity: 0;
       pointer-events: none;
       transition: opacity 0.2s ease;
@@ -459,34 +464,219 @@
       pointer-events: auto;
     }
 
-    .youtube-wrapper {
-      position: relative;
+    .yt-app-container {
       width: 100%;
       height: 100%;
       max-width: 500px;
       margin: 0 auto;
-      overflow: hidden;
+      display: flex;
+      flex-direction: column;
       background: #0f0f0f;
+      position: relative;
+      overflow: hidden;
     }
 
-    .youtube-img {
-      width: 100%;
+    /* Safe-area top spacer for iPhone status bar */
+    .yt-status-spacer {
+      height: max(38px, env(safe-area-inset-top, 38px));
+      background: #0f0f0f;
+      flex-shrink: 0;
+    }
+
+    /* Crisp Vector YouTube Top Bar */
+    .yt-topbar {
+      height: 46px;
+      padding: 0 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #0f0f0f;
+      flex-shrink: 0;
+    }
+
+    .yt-logo-btn {
+      background: none;
+      border: none;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      cursor: pointer;
+      padding: 4px 0;
+    }
+
+    .yt-logo-btn:active {
+      opacity: 0.75;
+    }
+
+    .yt-wordmark {
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Roboto", sans-serif;
+      font-size: 21px;
+      font-weight: 700;
+      letter-spacing: -0.9px;
+      color: #ffffff;
+    }
+
+    .yt-top-icons {
+      display: flex;
+      align-items: center;
+      gap: 22px;
+    }
+
+    .yt-icon-wrap {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #ffffff;
+    }
+
+    .yt-notif-badge {
+      position: absolute;
+      top: -4px;
+      right: -6px;
+      background: #FF0033;
+      color: #ffffff;
+      font-size: 10px;
+      font-weight: 700;
+      min-width: 16px;
+      height: 16px;
+      border-radius: 999px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 4px;
+      border: 1.5px solid #0f0f0f;
+    }
+
+    /* Crisp Navigation Tabs (Home, Subs, Music, Live, More) */
+    .yt-tabs {
+      height: 40px;
+      padding: 0 18px;
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      background: #0f0f0f;
+      flex-shrink: 0;
+    }
+
+    .yt-tab {
+      position: relative;
       height: 100%;
-      object-fit: fill;
+      display: flex;
+      align-items: center;
+      font-size: 14.5px;
+      font-weight: 500;
+      color: rgba(255, 255, 255, 0.88);
+      letter-spacing: -0.1px;
+    }
+
+    .yt-tab.active {
+      color: #ffffff;
+      font-weight: 600;
+    }
+
+    .yt-tab.active::after {
+      content: "";
+      position: absolute;
+      bottom: 4px;
+      left: 0;
+      right: 0;
+      height: 2.5px;
+      background: #FF0033;
+      border-radius: 2px;
+    }
+
+    /* First Video Thumbnail + Crisp Metadata Row */
+    .yt-thumb-box {
+      position: relative;
+      width: 100%;
+      flex-shrink: 0;
+      background: #000;
+    }
+
+    .yt-thumb-img {
+      width: 100%;
+      height: auto;
       display: block;
     }
 
-    /* Invisible Hotspot directly over the YouTube Logo in top-left */
-    .yt-logo-hotspot {
+    .yt-duration-badge {
       position: absolute;
-      top: 4.5%;
-      left: 1.5%;
-      width: 38%;
-      height: 7.5%;
-      background: transparent;
-      border: none;
-      cursor: pointer;
-      z-index: 55;
+      right: 10px;
+      bottom: 8px;
+      background: rgba(0, 0, 0, 0.82);
+      color: #ffffff;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 2px 6px;
+      border-radius: 5px;
+      letter-spacing: 0.2px;
+    }
+
+    /* Crisp Vector Video Title & Channel Row */
+    .yt-video-meta {
+      padding: 12px 14px 16px;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      background: #0f0f0f;
+      flex-shrink: 0;
+    }
+
+    .yt-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+
+    .yt-meta-text {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .yt-video-title {
+      font-size: 15.5px;
+      font-weight: 600;
+      color: #ffffff;
+      line-height: 1.25;
+      letter-spacing: -0.2px;
+    }
+
+    .yt-video-sub {
+      font-size: 12.5px;
+      color: #AAAAAA;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .yt-more-dots {
+      color: #ffffff;
+      padding: 4px;
+      font-size: 18px;
+      line-height: 1;
+      letter-spacing: 1px;
+    }
+
+    /* Ad Image filling remaining bottom space + Crisp Floating Bottom Bar */
+    .yt-ad-container {
+      position: relative;
+      flex: 1;
+      width: 100%;
+      overflow: hidden;
+      background: #141414;
+    }
+
+    .yt-ad-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top center;
+      display: block;
     }
 
     /* Revealed Passcode Popup when clicking YouTube logo */
@@ -641,7 +831,6 @@
         <div class="dot"></div>
         <div class="dot"></div>
       </div>
-      <!-- Red Failed Attempts Pill (toggles if needed, or hidden initially) -->
       <div id="failedBadge" class="failed-badge">8 Failed Passcode Attempts</div>
     </div>
 
@@ -661,12 +850,79 @@
     </div>
   </div>
 
-  <!-- 4. Unlocked YouTube Screen (Displays uploaded screenshot & secret YouTube logo button) -->
+  <!-- 4. Unlocked High-Res YouTube Screen (Crisp Vector Header, Logo, Tabs, Titles + Feed) -->
   <div id="youtubeScreen" class="youtube-screen">
-    <div class="youtube-wrapper">
-      <img src="youtube.jpg?v=8" alt="YouTube" class="youtube-img" />
-      <!-- Clicking the YouTube logo in the top-left reveals the entered passcode -->
-      <button id="ytLogoBtn" class="yt-logo-hotspot" aria-label="YouTube Logo"></button>
+    <div class="yt-app-container">
+      <div class="yt-status-spacer"></div>
+
+      <!-- Crisp Vector YouTube Header (Tapping YouTube Logo reveals the entered code) -->
+      <header class="yt-topbar">
+        <button id="ytLogoBtn" class="yt-logo-btn" aria-label="YouTube Logo">
+          <svg width="31" height="22" viewBox="0 0 31 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="31" height="22" rx="6" fill="#FF0033"/>
+            <path d="M12.5 6.5L20.5 11L12.5 15.5V6.5Z" fill="white"/>
+          </svg>
+          <span class="yt-wordmark">YouTube</span>
+        </button>
+
+        <div class="yt-top-icons">
+          <!-- Messages/Chat Icon -->
+          <div class="yt-icon-wrap">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+            </svg>
+          </div>
+          <!-- Notification Bell with Red '1' Badge -->
+          <div class="yt-icon-wrap">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+              <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+            </svg>
+            <span class="yt-notif-badge">1</span>
+          </div>
+          <!-- Search Magnifying Glass -->
+          <div class="yt-icon-wrap">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="11" cy="11" r="7"/>
+              <line x1="21" y1="21" x2="16.35" y2="16.35"/>
+            </svg>
+          </div>
+        </div>
+      </header>
+
+      <!-- Crisp Vector Navigation Tabs -->
+      <nav class="yt-tabs">
+        <div class="yt-tab active">Home</div>
+        <div class="yt-tab">Subs</div>
+        <div class="yt-tab">Music</div>
+        <div class="yt-tab">Live</div>
+        <div class="yt-tab">More</div>
+      </nav>
+
+      <!-- Video 1 Thumbnail + Crisp Timestamp -->
+      <div class="yt-thumb-box">
+        <img src="yt-thumb.jpg?v=9" alt="Video Thumbnail" class="yt-thumb-img" />
+        <span class="yt-duration-badge">18:59</span>
+      </div>
+
+      <!-- Crisp Vector Video Title & Channel Info -->
+      <div class="yt-video-meta">
+        <img src="yt-avatar.png?v=9" alt="Avatar" class="yt-avatar" />
+        <div class="yt-meta-text">
+          <div class="yt-video-title">Getting 20k is WAY TOO EASY</div>
+          <div class="yt-video-sub">
+            <span>DXZA</span>
+            <span>▷ 2.7k</span>
+            <span>4 hr ago</span>
+          </div>
+        </div>
+        <div class="yt-more-dots">•••</div>
+      </div>
+
+      <!-- Bottom Ad & Navigation Bar -->
+      <div class="yt-ad-container">
+        <img src="yt-ad.jpg?v=9" alt="Feed" class="yt-ad-img" />
+      </div>
     </div>
   </div>
 
