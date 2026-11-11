@@ -1,8 +1,8 @@
 {
-  "name": "Time Limit",
-  "short_name": "Time Limit",
+  "name": "YouTube",
+  "short_name": "YouTube",
   "start_url": "./index.html",
-  "display": "fullscreen",
+  "display": "standalone",
   "background_color": "#1e1e1e",
   "theme_color": "#1e1e1e",
   "orientation": "portrait"

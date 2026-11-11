@@ -5,11 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <meta name="apple-mobile-web-app-title" content="Time Limit" />
+  <meta name="apple-mobile-web-app-title" content="YouTube" />
   <meta name="mobile-web-app-capable" content="yes" />
   <meta name="theme-color" content="#1e1e1e" />
   <link rel="manifest" href="manifest.json" />
-  <title>Time Limit</title>
+  <title>YouTube</title>
   <style>
     :root {
       --ios-blue: #007AFF;
@@ -32,20 +32,41 @@
       -webkit-user-select: none;
     }
 
-    html, body {
+    html {
       width: 100%;
       height: 100%;
+      min-height: 100vh;
+      min-height: -webkit-fill-available;
+      background-color: #1e1e1e;
       overflow: hidden;
+      overscroll-behavior: none;
+    }
+
+    body {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      width: 100vw;
+      height: 100vh;
+      height: 100dvh;
+      min-height: -webkit-fill-available;
+      overflow: hidden;
+      overscroll-behavior: none;
       font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
-      background-color: #1c1c1e;
+      background-color: #1e1e1e;
       color: var(--text-primary);
       -webkit-font-smoothing: antialiased;
     }
 
-    /* Blurred dark background matching the reference photo's subtle ambient glow */
+    /* Blurred dark background extending past all safe-area edges to eliminate any iOS bottom stripe */
     .screen-bg {
       position: fixed;
-      inset: 0;
+      top: -100px;
+      left: -100px;
+      right: -100px;
+      bottom: -100px;
       background:
         radial-gradient(circle at 28% 54%, rgba(56, 48, 40, 0.38) 0%, transparent 46%),
         radial-gradient(circle at 50% 42%, rgba(46, 46, 48, 0.55) 0%, transparent 65%),
@@ -56,7 +77,11 @@
 
     /* Main Time Limit Lock Screen */
     .lock-screen {
-      position: relative;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
       z-index: 1;
       width: 100%;
       height: 100%;
@@ -64,7 +89,7 @@
       flex-direction: column;
       justify-content: space-between;
       align-items: center;
-      padding: env(safe-area-inset-top, 20px) 24px calc(env(safe-area-inset-bottom, 12px) + 28px);
+      padding: max(20px, env(safe-area-inset-top, 20px)) 24px calc(env(safe-area-inset-bottom, 16px) + 26px);
       transition: opacity 0.28s ease, transform 0.28s ease;
     }
 
@@ -133,7 +158,7 @@
       flex-direction: column;
       align-items: center;
       gap: 21px;
-      margin-bottom: 14px;
+      margin-bottom: 10px;
     }
 
     .ok-btn {
@@ -173,7 +198,7 @@
       opacity: 0.55;
     }
 
-    /* iOS Home Indicator Bar */
+    /* iOS Home Indicator Bar - hidden on real iOS standalone PWA since iOS already draws its own native home bar */
     .home-indicator {
       position: fixed;
       bottom: max(8px, env(safe-area-inset-bottom, 8px));
@@ -188,10 +213,19 @@
       cursor: pointer;
     }
 
+    @media all and (display-mode: standalone), all and (display-mode: fullscreen) {
+      .home-indicator {
+        display: none;
+      }
+    }
+
     /* Backdrop for Action Sheets & Modals */
     .overlay-backdrop {
       position: fixed;
-      inset: 0;
+      top: -50px;
+      left: -50px;
+      right: -50px;
+      bottom: -50px;
       background: rgba(0, 0, 0, 0.48);
       z-index: 20;
       opacity: 0;
@@ -208,8 +242,8 @@
     .action-sheet-container {
       position: fixed;
       left: 50%;
-      bottom: calc(env(safe-area-inset-bottom, 12px) + 18px);
-      transform: translate(-50%, 120%);
+      bottom: calc(env(safe-area-inset-bottom, 12px) + 12px);
+      transform: translate(-50%, 130%);
       width: calc(100% - 16px);
       max-width: 398px;
       z-index: 30;
@@ -280,16 +314,19 @@
     /* Screen Time Passcode Screen */
     .passcode-modal {
       position: fixed;
-      inset: 0;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
       z-index: 40;
-      background: rgba(22, 22, 24, 0.92);
+      background: rgba(22, 22, 24, 0.94);
       backdrop-filter: blur(35px);
       -webkit-backdrop-filter: blur(35px);
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: space-between;
-      padding: calc(env(safe-area-inset-top, 16px) + 12px) 24px calc(env(safe-area-inset-bottom, 16px) + 36px);
+      padding: calc(env(safe-area-inset-top, 20px) + 12px) 24px calc(env(safe-area-inset-bottom, 16px) + 30px);
       opacity: 0;
       pointer-events: none;
       transform: translateY(20px);
@@ -426,14 +463,20 @@
       opacity: 0.6;
     }
 
-    /* Unlocked YouTube Screen (shown after logging in) */
+    /* Unlocked YouTube Screen (shown after logging in) - edge-to-edge full iPhone screen */
     .youtube-screen {
       position: fixed;
-      inset: 0;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      width: 100vw;
+      height: 100vh;
+      height: 100dvh;
       z-index: 45;
       background: #0f0f0f;
       display: flex;
-      align-items: center;
+      align-items: stretch;
       justify-content: center;
       opacity: 0;
       pointer-events: none;
@@ -450,27 +493,24 @@
       width: 100%;
       height: 100%;
       max-width: 500px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
       overflow: hidden;
+      background: #0f0f0f;
     }
 
     .youtube-img {
       width: 100%;
       height: 100%;
-      object-fit: cover;
-      object-position: top center;
+      object-fit: fill;
       display: block;
     }
 
     /* Invisible Hotspot directly over the YouTube Logo in top-left */
     .yt-logo-hotspot {
       position: absolute;
-      top: 4.8%;
-      left: 2%;
-      width: 34%;
-      height: 6.2%;
+      top: 4.5%;
+      left: 1.5%;
+      width: 36%;
+      height: 6.8%;
       background: transparent;
       border: none;
       cursor: pointer;
@@ -480,7 +520,10 @@
     /* Revealed Passcode Popup when clicking YouTube logo */
     .code-reveal-modal {
       position: fixed;
-      inset: 0;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
       z-index: 80;
       background: rgba(0, 0, 0, 0.65);
       backdrop-filter: blur(10px);
@@ -669,7 +712,7 @@
     </div>
   </div>
 
-  <!-- iOS Bottom Home Indicator (Tap to toggle Fullscreen) -->
+  <!-- iOS Bottom Home Indicator (Hidden automatically when added to Home Screen on iPhone) -->
   <div id="homeIndicator" class="home-indicator" title="Tap to toggle Fullscreen"></div>
 
   <script>
@@ -700,6 +743,16 @@
     const codeHistoryText = document.getElementById('codeHistoryText');
     const closeRevealBtn = document.getElementById('closeRevealBtn');
     const relockBtn = document.getElementById('relockBtn');
+
+    // Hide simulated home indicator if running in iOS standalone mode
+    if (window.navigator.standalone === true) {
+      homeIndicator.style.display = 'none';
+    }
+
+    // Prevent rubber-band scrolling on iOS standalone app
+    document.addEventListener('touchmove', (e) => {
+      e.preventDefault();
+    }, { passive: false });
 
     // Fullscreen helper
     function toggleFullscreen(forceEnter = false) {
