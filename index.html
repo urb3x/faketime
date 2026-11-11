@@ -74,13 +74,36 @@
       justify-content: space-between;
       align-items: center;
       padding: 0 24px calc(env(safe-area-inset-bottom, 16px) + 34px);
-      transition: filter 0.25s ease, opacity 0.25s ease;
+      transition:
+        filter 0.38s cubic-bezier(0.32, 0.72, 0, 1),
+        transform 0.42s cubic-bezier(0.32, 0.72, 0, 1),
+        opacity 0.35s cubic-bezier(0.32, 0.72, 0, 1);
+      animation: lockEntrance 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
     }
 
-    /* Dim lock screen when floating menu is open (matching Screenshot 2) */
+    @keyframes lockEntrance {
+      from {
+        opacity: 0;
+        transform: scale(1.04);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    /* Dim & subtly scale back lock screen when floating menu or passcode sheet is open */
     .lock-screen.dimmed .center-content,
     .lock-screen.dimmed .bottom-actions {
-      opacity: 0.42;
+      opacity: 0.38;
+      transform: scale(0.96);
+      filter: blur(1.5px);
+      pointer-events: none;
+    }
+
+    .lock-screen.sheet-open {
+      transform: scale(0.93) translateY(-10px);
+      opacity: 0.65;
       pointer-events: none;
     }
 
@@ -98,7 +121,10 @@
       align-items: center;
       text-align: center;
       width: 100%;
-      transition: opacity 0.22s ease;
+      transition:
+        opacity 0.34s cubic-bezier(0.32, 0.72, 0, 1),
+        transform 0.38s cubic-bezier(0.32, 0.72, 0, 1),
+        filter 0.34s cubic-bezier(0.32, 0.72, 0, 1);
     }
 
     .hourglass-btn {
@@ -110,17 +136,30 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: transform 0.15s ease;
+      transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+      animation: hourglassPop 0.65s cubic-bezier(0.34, 1.56, 0.64, 1) 0.08s both;
+    }
+
+    @keyframes hourglassPop {
+      0% {
+        opacity: 0;
+        transform: scale(0.6) rotate(-12deg);
+      }
+      100% {
+        opacity: 1;
+        transform: scale(1) rotate(0deg);
+      }
     }
 
     .hourglass-btn:active {
-      transform: scale(0.94);
+      transform: scale(0.88);
     }
 
     .hourglass-svg {
       width: 58px;
       height: 76px;
       overflow: visible;
+      filter: drop-shadow(0 6px 18px rgba(0, 128, 255, 0.22));
     }
 
     .title {
@@ -130,6 +169,7 @@
       color: #ffffff;
       margin-bottom: 5px;
       line-height: 1.2;
+      animation: fadeUp 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.14s both;
     }
 
     .subtitle {
@@ -138,6 +178,18 @@
       letter-spacing: -0.2px;
       color: rgba(235, 235, 245, 0.55);
       line-height: 1.3;
+      animation: fadeUp 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.2s both;
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     /* Bottom Two Pill Buttons matching Screenshot 3 */
@@ -147,7 +199,11 @@
       flex-direction: column;
       align-items: center;
       gap: 13px;
-      transition: opacity 0.22s ease;
+      transition:
+        opacity 0.34s cubic-bezier(0.32, 0.72, 0, 1),
+        transform 0.38s cubic-bezier(0.32, 0.72, 0, 1),
+        filter 0.34s cubic-bezier(0.32, 0.72, 0, 1);
+      animation: fadeUp 0.55s cubic-bezier(0.22, 1, 0.36, 1) 0.26s both;
     }
 
     .ok-btn {
@@ -163,12 +219,15 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: transform 0.12s ease, background-color 0.15s ease;
+      transition:
+        transform 0.22s cubic-bezier(0.34, 1.56, 0.64, 1),
+        background-color 0.2s ease,
+        box-shadow 0.2s ease;
     }
 
     .ok-btn:active {
       background-color: var(--ios-blue-active);
-      transform: scale(0.97);
+      transform: scale(0.93);
     }
 
     .ask-btn {
@@ -187,12 +246,14 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: transform 0.12s ease, background-color 0.15s ease;
+      transition:
+        transform 0.22s cubic-bezier(0.34, 1.56, 0.64, 1),
+        background-color 0.2s ease;
     }
 
     .ask-btn:active {
-      background: rgba(78, 76, 74, 0.85);
-      transform: scale(0.97);
+      background: rgba(88, 86, 84, 0.88);
+      transform: scale(0.93);
     }
 
     /* Invisible Backdrop for Floating Card */
@@ -202,11 +263,13 @@
       left: -100px;
       right: -100px;
       bottom: -100px;
-      background: rgba(0, 0, 0, 0.22);
+      background: rgba(0, 0, 0, 0.32);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
       z-index: 20;
       opacity: 0;
       pointer-events: none;
-      transition: opacity 0.22s ease;
+      transition: opacity 0.32s cubic-bezier(0.32, 0.72, 0, 1);
     }
 
     .overlay-backdrop.visible {
@@ -219,7 +282,7 @@
       position: fixed;
       left: 50%;
       top: 52%;
-      transform: translate(-50%, -50%) scale(0.94);
+      transform: translate(-50%, -44%) scale(0.82);
       width: calc(100% - 68px);
       max-width: 344px;
       background: rgba(40, 40, 42, 0.86);
@@ -234,8 +297,10 @@
       gap: 11px;
       opacity: 0;
       pointer-events: none;
-      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.55);
-      transition: opacity 0.2s ease, transform 0.24s cubic-bezier(0.22, 1, 0.36, 1);
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.6);
+      transition:
+        opacity 0.26s cubic-bezier(0.32, 0.72, 0, 1),
+        transform 0.38s cubic-bezier(0.34, 1.45, 0.64, 1);
     }
 
     .floating-menu-card.visible {
@@ -243,6 +308,26 @@
       pointer-events: auto;
       transform: translate(-50%, -50%) scale(1);
     }
+
+    /* Staggered button pop-in inside floating menu card */
+    .floating-menu-card .pill-menu-btn {
+      opacity: 0;
+      transform: translateY(8px) scale(0.96);
+      transition:
+        opacity 0.25s ease,
+        transform 0.32s cubic-bezier(0.34, 1.45, 0.64, 1),
+        background-color 0.14s ease;
+    }
+
+    .floating-menu-card.visible .pill-menu-btn {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+
+    .floating-menu-card.visible .pill-menu-btn:nth-child(1) { transition-delay: 0.03s; }
+    .floating-menu-card.visible .pill-menu-btn:nth-child(2) { transition-delay: 0.06s; }
+    .floating-menu-card.visible .pill-menu-btn:nth-child(3) { transition-delay: 0.09s; }
+    .floating-menu-card.visible .pill-menu-btn:nth-child(4) { transition-delay: 0.12s; }
 
     .pill-menu-btn {
       width: 100%;
@@ -258,12 +343,12 @@
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      transition: background-color 0.12s ease, transform 0.1s ease;
     }
 
     .pill-menu-btn:active {
-      background: rgba(112, 112, 116, 0.8);
-      transform: scale(0.98);
+      background: rgba(124, 124, 128, 0.88);
+      transform: scale(0.95) !important;
+      transition-delay: 0s !important;
     }
 
     /* Screen Time Passcode Sheet Modal matching Screenshot 1 */
@@ -285,8 +370,10 @@
       padding: 18px 24px calc(env(safe-area-inset-bottom, 20px) + 94px);
       opacity: 0;
       pointer-events: none;
-      transform: translateY(100%);
-      transition: opacity 0.25s ease, transform 0.32s cubic-bezier(0.22, 1, 0.36, 1);
+      transform: translateY(104%);
+      transition:
+        opacity 0.28s ease,
+        transform 0.46s cubic-bezier(0.32, 0.72, 0, 1);
     }
 
     .passcode-modal.visible {
@@ -314,12 +401,12 @@
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      transition: background-color 0.12s ease, transform 0.1s ease;
+      transition: background-color 0.15s ease, transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
 
     .passcode-close-btn:active {
       background: #3A3A3C;
-      transform: scale(0.94);
+      transform: scale(0.88);
     }
 
     .passcode-center {
@@ -361,11 +448,17 @@
       border-radius: 50%;
       border: 1.6px solid rgba(255, 255, 255, 0.88);
       background: transparent;
-      transition: background-color 0.1s ease;
+      transform: scale(1);
+      transition:
+        background-color 0.16s ease,
+        transform 0.24s cubic-bezier(0.34, 1.65, 0.64, 1),
+        box-shadow 0.2s ease;
     }
 
     .dot.filled {
       background: #ffffff;
+      transform: scale(1.16);
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.45);
     }
 
     /* Red Pill Badge for Failed Attempts matching Screenshot 1 */
@@ -406,11 +499,16 @@
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      transition: background-color 0.12s ease;
+      transform: scale(1);
+      transition:
+        background-color 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+        transform 0.22s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
 
     .key-btn:active {
-      background: rgba(255, 255, 255, 0.34);
+      background: rgba(255, 255, 255, 0.46);
+      transform: scale(0.9);
+      transition: background-color 0.02s ease, transform 0.05s ease;
     }
 
     .key-num {
@@ -440,12 +538,13 @@
     .key-delete:active {
       background: transparent;
       opacity: 0.6;
+      transform: scale(0.92);
     }
 
     /*
      * ===================================================================
      * BEZELLESS FULL-BLEED YOUTUBE SCREENSHOT (Covers 100vw x 100% physical iPhone screen)
-     * Uses a scrollable wrapper scrolled down by 1px to disable iOS 18's automatic top status-bar blur!
+     * Smooth iOS app-unlock zoom & fade transition
      * ===================================================================
      */
     .youtube-screen {
@@ -460,12 +559,19 @@
       background: url('youtube-full.jpg?v=19') no-repeat center top;
       background-size: 100% 100%;
       opacity: 0;
+      transform: scale(0.94);
+      filter: blur(8px);
       pointer-events: none;
-      transition: opacity 0.18s ease;
+      transition:
+        opacity 0.38s cubic-bezier(0.32, 0.72, 0, 1),
+        transform 0.44s cubic-bezier(0.32, 0.72, 0, 1),
+        filter 0.38s cubic-bezier(0.32, 0.72, 0, 1);
     }
 
     .youtube-screen.visible {
       opacity: 1;
+      transform: scale(1);
+      filter: blur(0px);
       pointer-events: auto;
     }
 
@@ -498,7 +604,7 @@
       padding: 20px;
       opacity: 0;
       pointer-events: none;
-      transition: opacity 0.2s ease;
+      transition: opacity 0.26s cubic-bezier(0.32, 0.72, 0, 1);
     }
 
     .code-reveal-modal.visible {
@@ -519,6 +625,12 @@
       align-items: center;
       gap: 12px;
       box-shadow: 0 14px 38px rgba(0, 0, 0, 0.6);
+      transform: scale(0.85) translateY(12px);
+      transition: transform 0.34s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .code-reveal-modal.visible .code-reveal-card {
+      transform: scale(1) translateY(0);
     }
 
     .code-reveal-label {
@@ -823,6 +935,7 @@
     function openPasscodeModal() {
       enteredPin = '';
       updateDots();
+      lockScreen.classList.add('sheet-open');
       document.documentElement.style.backgroundColor = '#1C1C1E';
       document.body.style.backgroundColor = '#1C1C1E';
       passcodeModal.classList.add('visible');
@@ -830,6 +943,7 @@
 
     function closePasscodeModal() {
       passcodeModal.classList.remove('visible');
+      lockScreen.classList.remove('sheet-open');
       document.documentElement.style.backgroundColor = '#141210';
       document.body.style.backgroundColor = '#141210';
       enteredPin = '';
