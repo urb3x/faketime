@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
   <meta name="apple-mobile-web-app-title" content="YouTube" />
   <meta name="mobile-web-app-capable" content="yes" />
   <link rel="apple-touch-icon" href="apple-touch-icon.png?v=9" />
@@ -445,6 +445,7 @@
     /*
      * ===================================================================
      * BEZELLESS FULL-BLEED YOUTUBE SCREENSHOT (Covers 100vw x 100% physical iPhone screen)
+     * Uses a scrollable wrapper scrolled down by 1px to disable iOS 18's automatic top status-bar blur!
      * ===================================================================
      */
     .youtube-screen {
@@ -454,7 +455,7 @@
       width: 100vw;
       height: var(--full-screen-h, calc(100vh + env(safe-area-inset-bottom, 34px)));
       z-index: 50;
-      background: url('youtube-full.jpg?v=17') no-repeat center top;
+      background: url('youtube-full.jpg?v=18') no-repeat center top;
       background-size: 100% 100%;
       opacity: 0;
       pointer-events: none;
