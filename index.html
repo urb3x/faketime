@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
   <meta name="apple-mobile-web-app-title" content="YouTube" />
   <meta name="mobile-web-app-capable" content="yes" />
   <meta name="theme-color" content="#0f0f0f" />
@@ -478,7 +478,7 @@
 
     /* Safe-area top spacer for iPhone status bar */
     .yt-status-spacer {
-      height: max(38px, env(safe-area-inset-top, 38px));
+      height: env(safe-area-inset-top, 0px);
       background: #0f0f0f;
       flex-shrink: 0;
     }
@@ -1028,6 +1028,8 @@
     function showYouTubeScreen() {
       syncFullIphoneHeight();
       closeAllSheets();
+      document.documentElement.style.backgroundColor = '#0f0f0f';
+      document.body.style.backgroundColor = '#0f0f0f';
       youtubeScreen.classList.add('visible');
     }
 
@@ -1165,6 +1167,8 @@
     relockBtn.addEventListener('click', () => {
       codeRevealModal.classList.remove('visible');
       youtubeScreen.classList.remove('visible');
+      document.documentElement.style.backgroundColor = '#141210';
+      document.body.style.backgroundColor = '#141210';
     });
 
     hourglassBtn.addEventListener('click', () => {
