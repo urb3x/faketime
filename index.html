@@ -897,9 +897,9 @@
       if (!btn) return;
       const action = btn.dataset.action;
 
-      if (action === 'cancel') {
+      if (action === 'cancel' || action === 'send-request') {
         closeAllSheets();
-      } else if (action === 'one-more-minute' || action === 'send-request') {
+      } else if (action === 'one-more-minute') {
         closeAllSheets();
         showYouTubeScreen();
       } else if (action === 'enter-passcode') {
