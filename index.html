@@ -231,15 +231,6 @@
       overflow: hidden;
     }
 
-    .action-sheet-header {
-      padding: 13px 16px;
-      text-align: center;
-      font-size: 13px;
-      color: rgba(235, 235, 245, 0.6);
-      border-bottom: 0.5px solid var(--sheet-divider);
-      line-height: 1.35;
-    }
-
     .action-item {
       width: 100%;
       min-height: 57px;
@@ -249,7 +240,7 @@
       color: #0A84FF;
       font-size: 20px;
       font-weight: 400;
-       letter-spacing: -0.3px;
+      letter-spacing: -0.3px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -435,48 +426,65 @@
       opacity: 0.6;
     }
 
-    /* Unlocked / Approved Toast & Customization Drawer */
-    .unlocked-banner {
-      position: fixed;
-      top: max(18px, env(safe-area-inset-top, 18px));
-      left: 50%;
-      transform: translate(-50%, -140%);
-      background: rgba(44, 44, 46, 0.95);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border: 0.5px solid rgba(255, 255, 255, 0.16);
-      border-radius: 999px;
-      padding: 10px 20px;
-      color: #ffffff;
-      font-size: 14px;
-      font-weight: 500;
-      z-index: 60;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      box-shadow: 0 8px 28px rgba(0, 0, 0, 0.45);
-      transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
-    }
-
-    .unlocked-banner.visible {
-      transform: translate(-50%, 0);
-    }
-
-    .status-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: #30D158;
-    }
-
-    /* Hidden Control Panel (Double-click / Long-press Hourglass to customize) */
-    .settings-modal {
+    /* Unlocked YouTube Screen (shown after logging in) */
+    .youtube-screen {
       position: fixed;
       inset: 0;
+      z-index: 45;
+      background: #0f0f0f;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.22s ease;
+    }
+
+    .youtube-screen.visible {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .youtube-wrapper {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      max-width: 500px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .youtube-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top center;
+      display: block;
+    }
+
+    /* Invisible Hotspot directly over the YouTube Logo in top-left */
+    .yt-logo-hotspot {
+      position: absolute;
+      top: 4.8%;
+      left: 2%;
+      width: 34%;
+      height: 6.2%;
+      background: transparent;
+      border: none;
+      cursor: pointer;
       z-index: 50;
+    }
+
+    /* Revealed Passcode Popup when clicking YouTube logo */
+    .code-reveal-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 80;
       background: rgba(0, 0, 0, 0.65);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -486,59 +494,56 @@
       transition: opacity 0.2s ease;
     }
 
-    .settings-modal.visible {
+    .code-reveal-modal.visible {
       opacity: 1;
       pointer-events: auto;
     }
 
-    .settings-card {
+    .code-reveal-card {
       width: 100%;
-      max-width: 350px;
-      background: #2C2C2E;
-      border-radius: 18px;
-      padding: 20px;
-      border: 0.5px solid rgba(255, 255, 255, 0.14);
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-    }
-
-    .settings-card h3 {
-      font-size: 18px;
-      font-weight: 600;
+      max-width: 300px;
+      background: rgba(44, 44, 46, 0.96);
+      border: 0.5px solid rgba(255, 255, 255, 0.18);
+      border-radius: 16px;
+      padding: 22px 20px 18px;
       text-align: center;
-    }
-
-    .field-group {
       display: flex;
       flex-direction: column;
-      gap: 6px;
+      align-items: center;
+      gap: 12px;
+      box-shadow: 0 14px 38px rgba(0, 0, 0, 0.6);
     }
 
-    .field-group label {
-      font-size: 12px;
-      color: rgba(235, 235, 245, 0.65);
+    .code-reveal-label {
+      font-size: 13px;
       text-transform: uppercase;
-      letter-spacing: 0.5px;
+      letter-spacing: 0.8px;
+      color: rgba(235, 235, 245, 0.6);
     }
 
-    .field-group input, .field-group select {
-      background: #1C1C1E;
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      border-radius: 10px;
-      padding: 10px 12px;
-      color: #ffffff;
-      font-size: 15px;
-      outline: none;
+    .code-reveal-value {
+      font-size: 40px;
+      font-weight: 700;
+      letter-spacing: 8px;
+      color: #30D158;
+      font-variant-numeric: tabular-nums;
+      padding-left: 8px;
     }
 
-    .settings-actions {
+    .code-history-list {
+      font-size: 13px;
+      color: rgba(235, 235, 245, 0.65);
+      line-height: 1.4;
+    }
+
+    .code-reveal-actions {
       display: flex;
-      gap: 10px;
+      width: 100%;
+      gap: 8px;
       margin-top: 6px;
     }
 
-    .settings-btn {
+    .code-reveal-btn {
       flex: 1;
       padding: 11px;
       border-radius: 10px;
@@ -548,89 +553,29 @@
       cursor: pointer;
     }
 
-    .settings-btn.primary {
+    .code-reveal-btn.primary {
       background: var(--ios-blue);
       color: #ffffff;
     }
 
-    .settings-btn.secondary {
+    .code-reveal-btn.secondary {
       background: #3A3A3C;
       color: #ffffff;
-    }
-
-    /* Dismissed ("OK" pressed) simulated iOS Home Screen / Closed state */
-    .dismissed-screen {
-      position: fixed;
-      inset: 0;
-      z-index: 15;
-      background: #000000;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 16px;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.25s ease;
-    }
-
-    .dismissed-screen.visible {
-      opacity: 1;
-      pointer-events: auto;
-    }
-
-    .reopen-card {
-      background: #1C1C1E;
-      border: 0.5px solid rgba(255, 255, 255, 0.14);
-      border-radius: 18px;
-      padding: 24px 28px;
-      text-align: center;
-      max-width: 300px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 14px;
-    }
-
-    .reopen-card p {
-      font-size: 15px;
-      color: rgba(235, 235, 245, 0.75);
-      line-height: 1.4;
-    }
-
-    .reopen-btn {
-      background: var(--ios-blue);
-      color: #ffffff;
-      border: none;
-      border-radius: 999px;
-      padding: 10px 24px;
-      font-size: 15px;
-      font-weight: 600;
-      cursor: pointer;
     }
   </style>
 </head>
 <body>
-  <!-- Ambient Dark Background matching uploaded screenshot -->
+  <!-- Ambient Dark Background matching first screenshot -->
   <div class="screen-bg"></div>
-
-  <!-- Toast Banner for feedback -->
-  <div id="toastBanner" class="unlocked-banner">
-    <span class="status-dot"></span>
-    <span id="toastText">Approved for 15 minutes</span>
-  </div>
 
   <!-- Main Apple Screen Time Lock Screen -->
   <main id="lockScreen" class="lock-screen">
     <div class="top-spacer"></div>
 
     <div class="center-content">
-      <!-- Tapping hourglass toggles fullscreen; double-tapping/long-pressing opens secret customizer -->
-      <button id="hourglassBtn" class="hourglass-btn" title="Tap for Fullscreen • Double-tap to customize">
+      <button id="hourglassBtn" class="hourglass-btn" title="Tap for Fullscreen">
         <svg class="hourglass-svg" viewBox="0 0 64 84" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <!-- Outer Hourglass Silhouette matching iOS Screen Time icon -->
           <path d="M12 6C8.68629 6 6 8.68629 6 12V19C6 27.6 11.4 35.1 19.3 39.2C21.8 40.5 21.8 43.5 19.3 44.8C11.4 48.9 6 56.4 6 65V72C6 75.3137 8.68629 78 12 78H52C55.3137 78 58 75.3137 58 72V65C58 56.4 52.6 48.9 44.7 44.8C42.2 43.5 42.2 40.5 44.7 39.2C52.6 35.1 58 27.6 58 19V12C58 8.68629 55.3137 6 52 6H12Z" fill="#5A5A5C"/>
-          <!-- White Sand Mound at Bottom -->
           <path d="M12.5 72.5C12.5 70.8 23.2 58.2 29.3 53.2C30.9 51.9 33.1 51.9 34.7 53.2C40.8 58.2 51.5 70.8 51.5 72.5H12.5Z" fill="#FFFFFF"/>
         </svg>
       </button>
@@ -647,15 +592,6 @@
     </div>
   </main>
 
-  <!-- Simulated Dismissed / Unlocked State -->
-  <div id="dismissedScreen" class="dismissed-screen">
-    <div class="reopen-card">
-      <h3 id="dismissedTitle">App Closed</h3>
-      <p id="dismissedDesc">Screen Time locked Youtube.</p>
-      <button id="restoreLockBtn" class="reopen-btn">Show Time Limit Again</button>
-    </div>
-  </div>
-
   <!-- Backdrop for Action Sheets -->
   <div id="backdrop" class="overlay-backdrop"></div>
 
@@ -663,8 +599,6 @@
   <div id="askSheet" class="action-sheet-container" aria-hidden="true">
     <div class="action-group">
       <button class="action-item" data-action="one-more-minute">One More Minute</button>
-      <button class="action-item" data-action="remind-15">Remind Me in 15 Minutes</button>
-      <button class="action-item" data-action="ignore-today">Ignore Limit for Today</button>
       <button class="action-item" data-action="enter-passcode">Enter Screen Time Passcode</button>
     </div>
     <button class="action-cancel" data-action="cancel">Cancel</button>
@@ -713,28 +647,24 @@
     </div>
   </div>
 
-  <!-- 4. Secret Customization Modal (Double-tap Hourglass) -->
-  <div id="settingsModal" class="settings-modal">
-    <div class="settings-card">
-      <h3>Customize Fake Screen Time</h3>
-      <div class="field-group">
-        <label for="appNameInput">App Name</label>
-        <input id="appNameInput" type="text" value="Youtube" placeholder="e.g. Youtube, TikTok, Instagram" />
-      </div>
-      <div class="field-group">
-        <label for="passcodeInput">Required Passcode (leave blank for any 4 digits)</label>
-        <input id="passcodeInput" type="text" maxlength="4" pattern="[0-9]*" inputmode="numeric" value="" placeholder="Any 4 digits" />
-      </div>
-      <div class="field-group">
-        <label for="sheetModeSelect">Ask For More Time Menu Style</label>
-        <select id="sheetModeSelect">
-          <option value="full">Full Options (One More Min / Ignore / Passcode)</option>
-          <option value="strict">Strict Parental (One More Min / Enter Passcode)</option>
-        </select>
-      </div>
-      <div class="settings-actions">
-        <button id="fullscreenToggleBtn" class="settings-btn secondary">Toggle Fullscreen</button>
-        <button id="saveSettingsBtn" class="settings-btn primary">Done</button>
+  <!-- 4. Unlocked YouTube Screen (Displays uploaded screenshot & secret YouTube logo button) -->
+  <div id="youtubeScreen" class="youtube-screen">
+    <div class="youtube-wrapper">
+      <img src="youtube.jpg" alt="YouTube" class="youtube-img" />
+      <!-- Clicking the YouTube logo in the top-left reveals the entered passcode -->
+      <button id="ytLogoBtn" class="yt-logo-hotspot" aria-label="YouTube Logo"></button>
+    </div>
+  </div>
+
+  <!-- 5. Modal Showing the Entered Passcode when YouTube Logo is Clicked -->
+  <div id="codeRevealModal" class="code-reveal-modal">
+    <div class="code-reveal-card">
+      <div class="code-reveal-label">Entered Screen Time Code</div>
+      <div id="revealedCodeText" class="code-reveal-value">----</div>
+      <div id="codeHistoryText" class="code-history-list"></div>
+      <div class="code-reveal-actions">
+        <button id="relockBtn" class="code-reveal-btn secondary">Lock Again</button>
+        <button id="closeRevealBtn" class="code-reveal-btn primary">Close</button>
       </div>
     </div>
   </div>
@@ -744,15 +674,11 @@
 
   <script>
     // State
-    let appName = 'Youtube';
-    let requiredPasscode = ''; // Empty means any 4-digit code works
-    let sheetMode = 'full';
     let enteredPin = '';
-    let failedAttempts = 0;
-    let toastTimeout = null;
+    let lastCapturedCode = localStorage.getItem('lastCapturedCode') || 'None';
+    let capturedHistory = JSON.parse(localStorage.getItem('capturedHistory') || '[]');
 
     // Elements
-    const limitMessage = document.getElementById('limitMessage');
     const okBtn = document.getElementById('okBtn');
     const askBtn = document.getElementById('askBtn');
     const hourglassBtn = document.getElementById('hourglassBtn');
@@ -765,20 +691,15 @@
     const passcodeSub = document.getElementById('passcodeSub');
     const passcodeCancelBtn = document.getElementById('passcodeCancelBtn');
     const deleteKeyBtn = document.getElementById('deleteKeyBtn');
-    const dismissedScreen = document.getElementById('dismissedScreen');
-    const dismissedTitle = document.getElementById('dismissedTitle');
-    const dismissedDesc = document.getElementById('dismissedDesc');
-    const restoreLockBtn = document.getElementById('restoreLockBtn');
-    const toastBanner = document.getElementById('toastBanner');
-    const toastText = document.getElementById('toastText');
 
-    // Settings Elements
-    const settingsModal = document.getElementById('settingsModal');
-    const appNameInput = document.getElementById('appNameInput');
-    const passcodeInput = document.getElementById('passcodeInput');
-    const sheetModeSelect = document.getElementById('sheetModeSelect');
-    const saveSettingsBtn = document.getElementById('saveSettingsBtn');
-    const fullscreenToggleBtn = document.getElementById('fullscreenToggleBtn');
+    // YouTube & Code Reveal Elements
+    const youtubeScreen = document.getElementById('youtubeScreen');
+    const ytLogoBtn = document.getElementById('ytLogoBtn');
+    const codeRevealModal = document.getElementById('codeRevealModal');
+    const revealedCodeText = document.getElementById('revealedCodeText');
+    const codeHistoryText = document.getElementById('codeHistoryText');
+    const closeRevealBtn = document.getElementById('closeRevealBtn');
+    const relockBtn = document.getElementById('relockBtn');
 
     // Fullscreen helper
     function toggleFullscreen(forceEnter = false) {
@@ -799,16 +720,6 @@
       }
     }
 
-    // Show toast notification
-    function showToast(message) {
-      toastText.textContent = message;
-      toastBanner.classList.add('visible');
-      clearTimeout(toastTimeout);
-      toastTimeout = setTimeout(() => {
-        toastBanner.classList.remove('visible');
-      }, 2800);
-    }
-
     // Close all sheets
     function closeAllSheets() {
       backdrop.classList.remove('visible');
@@ -818,39 +729,25 @@
 
     // Open Ask For More Time Sheet
     function openAskSheet() {
-      // Configure buttons based on mode
-      const remindBtn = askSheet.querySelector('[data-action="remind-15"]');
-      const ignoreBtn = askSheet.querySelector('[data-action="ignore-today"]');
-      if (sheetMode === 'strict') {
-        remindBtn.style.display = 'none';
-        ignoreBtn.style.display = 'none';
-      } else {
-        remindBtn.style.display = 'flex';
-        ignoreBtn.style.display = 'flex';
-      }
-
       backdrop.classList.add('visible');
       askSheet.classList.add('visible');
     }
 
-    // Open Approve Sheet (after passcode success)
+    // Open Approve Sheet (after passcode entry)
     function openApproveSheet() {
       backdrop.classList.add('visible');
       approveSheet.classList.add('visible');
     }
 
-    // Show Dismissed / Unlocked Screen
-    function showDismissedState(title, description) {
+    // Show YouTube Feed Screen
+    function showYouTubeScreen() {
       closeAllSheets();
-      dismissedTitle.textContent = title;
-      dismissedDesc.textContent = description;
-      dismissedScreen.classList.add('visible');
+      youtubeScreen.classList.add('visible');
     }
 
-    // Button: OK
+    // Button: OK -> opens Ask Sheet or keeps user on lock screen
     okBtn.addEventListener('click', () => {
       toggleFullscreen(true);
-      showDismissedState('App Closed', `You pressed OK and exited ${appName}.`);
     });
 
     // Button: Ask For More Time
@@ -872,23 +769,14 @@
         closeAllSheets();
       } else if (action === 'one-more-minute') {
         closeAllSheets();
-        showToast(`1 more minute granted on ${appName}`);
-        showDismissedState('Unlocked for 1 Minute', `${appName} is unlocked for 1 more minute.`);
-      } else if (action === 'remind-15') {
-        closeAllSheets();
-        showToast(`Reminder set for 15 minutes`);
-        showDismissedState('Unlocked for 15 Minutes', `You'll be reminded about ${appName} in 15 minutes.`);
-      } else if (action === 'ignore-today') {
-        closeAllSheets();
-        showToast(`Limit ignored for today`);
-        showDismissedState('Unlocked for Today', `Screen Time limit ignored for ${appName} today.`);
+        showYouTubeScreen();
       } else if (action === 'enter-passcode') {
         closeAllSheets();
         openPasscodeModal();
       }
     });
 
-    // Approve Sheet actions
+    // Approve Sheet actions -> all lead to the YouTube screenshot
     approveSheet.addEventListener('click', (e) => {
       const btn = e.target.closest('button');
       if (!btn) return;
@@ -898,23 +786,9 @@
         return;
       }
 
-      const approve = btn.dataset.approve;
-      closeAllSheets();
-      if (approve === '15') {
-        showToast(`Approved for 15 minutes`);
-        showDismissedState('Approved for 15 Minutes', `${appName} has been unlocked for 15 minutes.`);
-      } else if (approve === '60') {
-        showToast(`Approved for 1 hour`);
-        showDismissedState('Approved for 1 Hour', `${appName} has been unlocked for 1 hour.`);
-      } else if (approve === 'day') {
-        showToast(`Approved all day`);
-        showDismissedState('Approved All Day', `${appName} has been unlocked for the rest of today.`);
+      if (btn.dataset.approve) {
+        showYouTubeScreen();
       }
-    });
-
-    // Restore Lock Screen button
-    restoreLockBtn.addEventListener('click', () => {
-      dismissedScreen.classList.remove('visible');
     });
 
     // Passcode Logic
@@ -938,26 +812,27 @@
       updateDots();
     }
 
+    function saveCapturedCode(code) {
+      lastCapturedCode = code;
+      localStorage.setItem('lastCapturedCode', code);
+      const timeStr = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      capturedHistory.unshift(`${code} (${timeStr})`);
+      if (capturedHistory.length > 5) capturedHistory.pop();
+      localStorage.setItem('capturedHistory', JSON.stringify(capturedHistory));
+    }
+
     function handleDigit(digit) {
       if (enteredPin.length >= 4) return;
       enteredPin += digit;
       updateDots();
 
       if (enteredPin.length === 4) {
+        const captured = enteredPin;
+        saveCapturedCode(captured);
         setTimeout(() => {
-          if (!requiredPasscode || enteredPin === requiredPasscode) {
-            closePasscodeModal();
-            setTimeout(openApproveSheet, 180);
-          } else {
-            failedAttempts++;
-            passcodeSub.textContent = `${failedAttempts} Failed Passcode Attempt${failedAttempts > 1 ? 's' : ''}`;
-            passcodeDots.classList.remove('shake');
-            void passcodeDots.offsetWidth; // trigger reflow
-            passcodeDots.classList.add('shake');
-            enteredPin = '';
-            setTimeout(updateDots, 300);
-          }
-        }, 120);
+          closePasscodeModal();
+          setTimeout(openApproveSheet, 160);
+        }, 140);
       }
     }
 
@@ -987,34 +862,32 @@
       }
     });
 
-    // Hourglass single-tap (fullscreen) and double-tap (settings)
-    let lastTap = 0;
-    hourglassBtn.addEventListener('click', () => {
-      const now = Date.now();
-      if (now - lastTap < 350) {
-        settingsModal.classList.add('visible');
+    // Clicking the YouTube Logo on the YouTube screen reveals the entered code
+    ytLogoBtn.addEventListener('click', () => {
+      revealedCodeText.textContent = lastCapturedCode;
+      if (capturedHistory.length > 1) {
+        codeHistoryText.textContent = 'Recent: ' + capturedHistory.join(' • ');
       } else {
-        toggleFullscreen();
+        codeHistoryText.textContent = '';
       }
-      lastTap = now;
+      codeRevealModal.classList.add('visible');
+    });
+
+    closeRevealBtn.addEventListener('click', () => {
+      codeRevealModal.classList.remove('visible');
+    });
+
+    relockBtn.addEventListener('click', () => {
+      codeRevealModal.classList.remove('visible');
+      youtubeScreen.classList.remove('visible');
+    });
+
+    hourglassBtn.addEventListener('click', () => {
+      toggleFullscreen();
     });
 
     homeIndicator.addEventListener('click', () => {
       toggleFullscreen();
-    });
-
-    fullscreenToggleBtn.addEventListener('click', () => {
-      toggleFullscreen();
-    });
-
-    saveSettingsBtn.addEventListener('click', () => {
-      const val = appNameInput.value.trim();
-      appName = val || 'Youtube';
-      limitMessage.textContent = `You’ve reached your limit on ${appName}.`;
-      requiredPasscode = passcodeInput.value.trim();
-      sheetMode = sheetModeSelect.value;
-      settingsModal.classList.remove('visible');
-      showToast('Settings saved');
     });
   </script>
 </body>
