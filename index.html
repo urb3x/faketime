@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="YouTube" />
   <meta name="mobile-web-app-capable" content="yes" />
   <meta name="theme-color" content="#0f0f0f" />
@@ -267,7 +267,7 @@
       position: fixed;
       left: 0;
       right: 0;
-      top: 12px;
+      top: max(42px, env(safe-area-inset-top, 42px));
       bottom: 0;
       z-index: 40;
       background: #1C1C1E;
@@ -278,7 +278,7 @@
       flex-direction: column;
       align-items: center;
       justify-content: space-between;
-      padding: 18px 24px calc(env(safe-area-inset-bottom, 16px) + 18px);
+      padding: 18px 24px calc(env(safe-area-inset-bottom, 16px) + 14px);
       opacity: 0;
       pointer-events: none;
       transform: translateY(100%);
@@ -479,14 +479,15 @@
 
     /* Safe-area top spacer for iPhone status bar */
     .yt-status-spacer {
-      height: 0px;
+      height: env(safe-area-inset-top, 44px);
       background: #0f0f0f;
       flex-shrink: 0;
     }
 
     /* Crisp Vector YouTube Top Bar */
     .yt-topbar {
-      height: 44px;
+      height: 40px;
+      margin-top: -6px;
       padding: 0 16px;
       display: flex;
       align-items: center;
