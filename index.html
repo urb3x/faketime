@@ -7,7 +7,6 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="YouTube" />
   <meta name="mobile-web-app-capable" content="yes" />
-  <meta name="theme-color" content="#0f0f0f" />
   <link rel="apple-touch-icon" href="apple-touch-icon.png?v=9" />
   <link rel="icon" type="image/png" href="apple-touch-icon.png?v=9" />
   <title>YouTube</title>
@@ -453,13 +452,12 @@
       top: 0;
       left: 0;
       right: 0;
-      height: var(--full-screen-h, calc(100vh + env(safe-area-inset-bottom, 34px)));
+      height: calc(100vh + env(safe-area-inset-bottom, 34px));
       width: 100%;
       z-index: 50;
       background: #0f0f0f;
       display: flex;
       flex-direction: column;
-      justify-content: flex-end;
       opacity: 0;
       pointer-events: none;
       transition: opacity 0.2s ease;
@@ -477,17 +475,16 @@
       margin: 0 auto;
       display: flex;
       flex-direction: column;
-      justify-content: flex-end;
       background: #0f0f0f;
       position: relative;
       overflow: hidden;
     }
 
-    /* Top spacer absorbs any extra vertical space at the top in pure #0f0f0f so the bottom sits 100% flush with the floor */
+    /* Safe-area top spacer for iPhone status bar */
     .yt-status-spacer {
-      flex: 1;
-      min-height: env(safe-area-inset-top, 44px);
+      height: max(36px, env(safe-area-inset-top, 36px));
       background: #0f0f0f;
+      flex-shrink: 0;
     }
 
     /* Crisp Vector YouTube Top Bar */
@@ -669,17 +666,19 @@
       letter-spacing: 1px;
     }
 
-    /* Ad Image anchored flush to the very bottom of the physical screen */
+    /* Ad Image stretches to fill 100% of remaining height all the way to the physical bottom */
     .yt-ad-container {
       position: relative;
+      flex: 1;
+      min-height: 0;
       width: 100%;
-      flex-shrink: 0;
-      background: #0f0f0f;
+      background: #3BC8C0;
     }
 
     .yt-ad-img {
       width: 100%;
-      height: auto;
+      height: 100%;
+      object-fit: fill;
       display: block;
     }
 
