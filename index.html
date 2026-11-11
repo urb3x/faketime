@@ -452,10 +452,12 @@
       position: fixed;
       top: 0;
       left: 0;
+      right: 0;
+      bottom: 0;
       width: 100vw;
-      height: var(--full-screen-h, calc(100vh + env(safe-area-inset-bottom, 34px)));
+      height: 100%;
       z-index: 50;
-      background: url('youtube-full.jpg?v=18') no-repeat center top;
+      background: url('youtube-full.jpg?v=19') no-repeat center top;
       background-size: 100% 100%;
       opacity: 0;
       pointer-events: none;
@@ -469,10 +471,10 @@
 
     .yt-logo-hotspot {
       position: absolute;
-      top: 5.2%;
-      left: 2%;
-      width: 34%;
-      height: 5.8%;
+      top: 0%;
+      left: 1.5%;
+      width: 36%;
+      height: 6.5%;
       background: transparent;
       border: none;
       cursor: pointer;
